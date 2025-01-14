@@ -337,7 +337,7 @@ bool linked_list::remove_at(unsigned int index)
     int_node *to_delete = head;
 
     if (head == tail) {
-        // Apenas um elemento na lista
+        //  Caso tenha apenas um elemento na lista
         head = tail = nullptr;
     } else {
         // Remover o primeiro elemento
