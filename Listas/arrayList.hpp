@@ -1,297 +1,240 @@
 #ifndef __ARRAY_LIST_IFRN__
 #define __ARRAY_LIST_IFRN__
-
-#include <stdexcept> // Inclui exceções para lidar com erros em tempo de execução.
-#include <string>
-
-class ArrayList
+class array_list
 {
 private:
-    // Campos privados para gerenciar os dados e o estado da lista.
-    int *data;              // Ponteiro para armazenar os elementos dinamicamente, deve iniciar com o valor 8.
-    unsigned int size_;     // Quantidade de elementos atualmente armazenados.
-    unsigned int capacity_; // Capacidade máxima antes de precisar realocar memória.
-
-    // Métodos auxiliares privados para manipulação interna
-
-    void increase_capacity() // Aumenta a capacidade do array, realocando memória.
-    {
-        capacity_ = capacity_ * 2;
-        int *new_node = new int[capacity_]; // criar nova memória com o dobro da capacidade.
-
-        for (unsigned int i = 0; i < size_; i++)
-        {
-            new_node[i] = data[i];
-        }
-
-        int *old_data = data;
-        data = new_node;
-        delete[] old_data;
-    }
-    void check_capacity()
-    { // Verifica se a capacidade é suficiente antes de inserir.
-        if (size_ == capacity_)
-        {
-            increase_capacity();
-        }
-    }
+    int *data;
+    unsigned int size_, capacity_;
+    void increase_capacity() {}
 
 public:
-    // **Construtor e Destrutor**
-
-    ArrayList()
-    {
+    array_list()
+    { // Construtor
         this->size_ = 0;
         this->capacity_ = 8;
         this->data = new int[capacity_];
     }
-
-    ~ArrayList()
-    {
+    ~array_list()
+    { // Destrutor
         delete[] data;
     }
-
-    // **Operações de consulta (Get operations)**
-
     unsigned int size()
-    { // Retorna o número de elementos na lista.
-        return size_;
+    { // Retorna a quantidade de elementos armazenados
+        return this->size_;
     }
-
     unsigned int capacity()
-    { // Retorna a capacidade máxima atual da lista.
-        return capacity_;
-    }
+    { // Retorna o espaço reservado para armazenar os elementos
 
+        return this->capacity_;
+    }
     double percent_occupied()
-    { // Retorna a porcentagem de ocupação da capacidade.
-        return (static_cast<double>(size_) / static_cast<double>(capacity_));
+    { // Retorna um valor entre 0.0 a 1.0 com o percentual da memória usada.
+        return static_cast<double>(size_) / static_cast<double>(capacity_);
     }
 
-    void insert_at(unsigned int index, int value)
+    bool insert_at(unsigned int index, int value)
     { // Insere elemento no índice index
-        check_capacity();
-
-        if (index == 0)
+        if (index > size_ or index < 0)
         {
-            push_front(value);
+            return false;
         }
-        else if (index == size_)
-        {
-            push_back(value);
-        }
-        else
-        {
-            size_++;
 
-            // Itera a lista de trás para frente, movendo os elementos para abrir espaço no índice desejado.
-            for (unsigned int i = size_; i > index; i--)
-            {
-                data[i] = data[i - 1];
-            }
-
-            data[index] = value;
+        if (size_ == capacity_)
+        {
+            increase_capacity();
         }
+
+        for (unsigned int i = size_; i > index; i--)
+        {
+            data[i] = data[i - 1];
+        }
+
+        data[index] = value;
+
+        size_++;
+
+        return true;
     }
-
     bool remove_at(unsigned int index)
-    {
-        bool exc = false;
-
-        if (index == 0)
+    { // Remove elemento do índice index
+        if (index >= size_)
         {
-            exc = pop_front();
-        }
-        else if (index == (size_ - 1))
-        {
-            exc = pop_back();
-        }
-        else
-        {
-            for (unsigned int i = index; i < (size_ - 1); i++)
-            {
-                data[i] = data[i + 1];
-            }
-            exc = true;
-            size_--;
+            return false;
         }
 
-        return exc;
+        for (unsigned int i = index; i < size_ - 1; i++)
+        {
+            data[i] = data[i + 1];
+        }
+        data[size_ - 1] = 0;
+        size_--;
+        return true;
     }
-
     int get_at(unsigned int index)
-    {
+    { // Retorna elemento no índice index, −1 se índice inválido
+
+        if (index >= size_)
+        {
+
+            return -1;
+        }
+
         return data[index];
     }
 
     void clear()
-    {
-        capacity_ = 8;
-        size_ = 0;
-        int *old_data = data;
-        int *new_node = new int[capacity_];
-        data = new_node;
-
-        delete[] old_data;
+    { // Remove todos os elementos, deixando o vetor no estado inicial
+        delete[] data;
+        this->size_ = 0;
+        this->capacity_ = 8;
+        this->data = new int[8];
     }
-
-    // **Operações de inserção (Push operations)**
     void push_back(int value)
-    { // Insere um elemento no final.
-        check_capacity();
+    { // Adiciona um elemento no ``final'' do vetor
+        if (size_ == capacity_)
+        {
+            increase_capacity();
+        }
 
         data[size_] = value;
         size_++;
     }
     void push_front(int value)
-    { // Insere um elemento no início.
-        check_capacity();
-
-        size_++;
-
-        for (unsigned int i = size_; i > 0; i--)
+    { // Adiciona um elemento no ``início'' do vetor
+        if (size_ == capacity_)
         {
+
+            increase_capacity();
+        }
+        for (int i = size_; i > 0; i--)
+        {
+
             data[i] = data[i - 1];
         }
-
+        size_++;
         data[0] = value;
     }
-
     bool pop_back()
-    { // Remove o último elemento (retorna true ou false).
-        bool exc = false;
+    { // Remove um elemento do ``final'' do vetor
 
         if (size_ == 0)
         {
-            throw std::runtime_error("Lista vazia, não foi possível remover o item desejado.");
-        }
-        else
-        {
-            exc = true;
-            size_--;
+            return false;
         }
 
-        return exc;
+        size_--;
+        return true;
     }
 
     bool pop_front()
-    { // Remove o primeiro elemento (retorna true ou false).
-        bool exc = false;
+    { // Remove um elemento do ``início'' do vetor
+
         if (size_ == 0)
         {
-            throw std::runtime_error("Lista vazia, não foi possível remover o primeiro elemento da lista.");
+            return false;
         }
-        else
+        for (int i = 0; i < size_ - 1; i++)
         {
-            for (unsigned int i = 0; i < (size_ - 1); i++)
-            {
-                data[i] = data[i + 1];
-            }
-            size_--;
-            exc = true;
-        }
-        return exc;
-    }
 
+            data[i] = data[i + 1];
+        }
+        data[size_ - 1] = 0;
+        size_--;
+        return true;
+    }
     int back()
-    { // Retorna o último elemento.
+    { // Retorna o elemento do ``final'' do vetor
+
         if (size_ == 0)
         {
-            throw std::out_of_range("Lista vazia, não foi possível retornar o último elemento.");
+
+            return -1;
         }
-        else if (size_ == 1)
-        {
-            return data[0];
-        }
-        else
-        {
-            return data[size_ - 1]; // Retorna o tamanho da lista -1, para pegar o index do último elemento.
-        }
-    }
-    int front()
-    { // Retorna o primeiro elemento.
-        if (size_ == 0)
-        {
-            throw std::out_of_range("Lista vazia, não foi possível retornar o primeiro elemento.");
-        }
-        else
-        {
-            return data[0];
-        }
+        return data[size_ - 1];
     }
 
-    int find(int value)
-    {
-        for (unsigned int i = 0; i < this->size_; i++)
+    int front()
+    { // Retorna o elemento do ``início'' do vetor
+
+        if (size_ == 0)
         {
+
+            return -1;
+        }
+
+        return data[0];
+    }
+    bool remove(int value)
+    { // Remove value do vetor caso esteja presente
+        if (size_ == 0)
+        {
+            return false;
+        }
+        for (int i = 0; i < size_; i++)
+        {
+
             if (data[i] == value)
             {
-                return i; // Retorna o índice da primeira ocorrência do valor.
+
+                remove_at(i);
+                i--;
             }
         }
-        return -1; // Retorna -1 se o valor não for encontrado.
+        return true;
     }
+    int find(int value)
+    { // Retorna o índice de value, −1 caso value não esteja presente
 
+        if (size_ == 0)
+        {
+
+            return -1;
+        }
+
+        for (int i = 0; i < size_; i++)
+        {
+
+            if (data[i] == value)
+            {
+
+                return i;
+            }
+        }
+
+        return -1;
+    }
     int count(int value)
-    {
-        int score = 0;
-
-        if (size_ == 1)
+    { // Retorna quantas vezes value occorre no vetor
+        if (size_ == 0)
         {
-            if (*data == value)
-            {
-                score++;
-            }
+            return -1;
         }
-        else
+        int count = 0;
+
+        for (int i = 0; i < size_; i++)
         {
-            int *start = data;
-            int *end = (size_ - 1) + data;
 
-            unsigned int halfsize = size_ / 2;
-
-            if (size_ % 2 != 0)
+            if (data[i] == value)
             {
-                halfsize++;
-            }
-
-            for (unsigned int i = 0; i < halfsize; i++)
-            {
-                if (*end == value)
-                {
-                    score++;
-                }
-
-                if (*start == value)
-                {
-                    score++;
-                    break;
-                }
-
-                if (start == end)
-                {
-                    break;
-                }
-
-                start++;
-                end--;
+                count++;
             }
         }
 
-        return score;
+        return count;
     }
 
     int sum()
-    {
-        int result = data[0];
-
-        for (unsigned int i = 1; i < size_; i++)
+    { // Retorna a soma dos elementos do vetor
+        int sum = 0;
+        if (size_ == 0)
         {
-            result += data[i];
+            return 0;
         }
-
-        return result;
+        for (int i = 0; i < size_; i++)
+        {
+            sum += data[i];
+        }
+        return sum;
     }
 };
-
 #endif // __ARRAY_LIST_IFRN__
