@@ -5,7 +5,19 @@ class array_list
 private:
     int *data;
     unsigned int size_, capacity_;
-    void increase_capacity() {}
+    void increase_capacity()
+    { // Aumentar a capacidade da lista
+        capacity_ *= 2;
+        int *old_data = data;
+        int *new_data = new int[capacity_];
+
+        for (int i = 0; i < size_; i++)
+        {
+            new_data[i] = old_data[i];
+        }
+        delete[] old_data;
+        data = new_data;
+    }
 
 public:
     array_list()
