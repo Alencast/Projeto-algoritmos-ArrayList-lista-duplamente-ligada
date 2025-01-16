@@ -52,8 +52,8 @@ Estrutura de dado feita com lista duplamente ligada, nela alocamos um novo espa�
 
 Depois de analisar o tempo de execução das funções em **ArrayList** e **LinkedList**, considerando como cada estrutura funciona, é possível tirar as seguintes conclusões:
 
-- O **ArrayList** é mais rápido em operações de busca, como `get_at`, `find_first` e `find_all`.
-- A **LinkedList** é a melhor opção nas operações de inserção e remoção, como `insert_at`, `pop_front` e `remove_at`.
+- O **ArrayList** é mais rápido em operações de busca, como "get_at" e "find".
+- A **LinkedList** é a melhor opção nas operações de inserção e remoção, como "insert_at", "pop_front" e "remove_at".
 
 ## Por que isso acontece?
 
@@ -63,5 +63,5 @@ A diferença de desempenho tem a ver com a forma como cada estrutura trabalha co
   O **ArrayList** ganha em buscas pois os elementos ficam em posições contínuas na memória, então dá pra acessar diretamente pelo índice. Já na **LinkedList**, você precisa passar nó por nó até achar o valor, o que acaba levando mais tempo.
 
 - **Inserção e Remoção na LinkedList**  
-  A **LinkedList** é melhor pra inserir e remover elementos por causa da sua estrutura de lista duplamente ligada. Cada nó só precisa apontar pro próximo e pro anterior, o que facilita operações como `pop_front`. Nesses casos, só é necessário ajustar os ponteiros e liberar a memória do nó removido, sem precisar reorganizar outros elementos, como acontece no **ArrayList**.
+  A **LinkedList** é melhor pra inserir e remover elementos por causa da sua estrutura de lista duplamente ligada. Cada nó só precisa apontar pro próximo e pro anterior, o que facilita operações como "pop_back". Nesses casos, só é necessário ajustar os ponteiros e liberar a memória do nó removido, sem precisar reorganizar outros elementos, como acontece no **ArrayList**.
 
