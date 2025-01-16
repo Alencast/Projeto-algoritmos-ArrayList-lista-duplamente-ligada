@@ -338,7 +338,7 @@ public:
     }
 
     bool pop_front()
-    { // Remove um elemento do ``início'' do vetor
+    { // Remove um elemento do ""início'' do vetor
         if (head == nullptr)
         {
             // Lista vazia
@@ -366,7 +366,7 @@ public:
     }
 
     int back()
-    { // Retorna o elemento do ``final'' do vetor
+    { // Retorna o elemento do "final" do vetor
         if (tail == nullptr)
         {
             // Lista vazia
@@ -375,7 +375,7 @@ public:
         return tail->value;
     }
     int linked_list::front()
-    { // Retorna o elemento do ``final'' do vetor
+    { // Retorna o elemento do "final" do vetor
         if (head == nullptr)
         {
             throw std::out_of_range("Lista vazia. Não foi possíível retornar o elemento inicial.");
@@ -401,7 +401,7 @@ public:
 
                 if (current == head)
                 {
-                    // Remover do início
+                    // Remover do inicio
                     head = head->next;
                     if (head != nullptr)
                     {
@@ -409,7 +409,7 @@ public:
                     }
                     else
                     {
-                        // Se o novo head for nulo, significa que a lista ficou completamente vazia. Portanto, o tail também deve ser atualizado.
+                        // Se o novo head for nulo, significa que a lista ficou  vazia.
                         tail = nullptr;
                     }
                 }
