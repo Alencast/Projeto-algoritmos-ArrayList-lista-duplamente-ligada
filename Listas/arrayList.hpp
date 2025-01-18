@@ -102,7 +102,7 @@ public:
         this->data = new int[8];
     }
     void push_back(int value)
-    { // Adiciona um elemento no ``final'' do vetor
+    { // Adiciona um elemento no "final" do vetor
         if (size_ == capacity_)
         {
             increase_capacity();
@@ -112,7 +112,7 @@ public:
         size_++;
     }
     void push_front(int value)
-    { // Adiciona um elemento no ``início'' do vetor
+    { // Adiciona um elemento no "inicio" do vetor
         if (size_ == capacity_)
         {
 
@@ -127,7 +127,7 @@ public:
         data[0] = value;
     }
     bool pop_back()
-    { // Remove um elemento do ``final'' do vetor
+    { // Remove um elemento do "final" do vetor
 
         if (size_ == 0)
         {
@@ -139,7 +139,7 @@ public:
     }
 
     bool pop_front()
-    { // Remove um elemento do ``início'' do vetor
+    { // Remove um elemento do "inicio" do vetor
 
         if (size_ == 0)
         {
@@ -155,7 +155,7 @@ public:
         return true;
     }
     int back()
-    { // Retorna o elemento do ``final'' do vetor
+    { // Retorna o elemento do "final" do vetor
 
         if (size_ == 0)
         {
@@ -166,7 +166,7 @@ public:
     }
 
     int front()
-    { // Retorna o elemento do ``início'' do vetor
+    { // Retorna o elemento do "inicio" do vetor
 
         if (size_ == 0)
         {
