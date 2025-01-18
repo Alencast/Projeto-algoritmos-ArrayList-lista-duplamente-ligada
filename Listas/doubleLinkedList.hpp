@@ -15,13 +15,14 @@ private:
     unsigned int size_;
 
 public:
-    // **Construtor e Destrutor**
+    // Construtor
     linked_list()
     {
         this->head = nullptr;
         this->tail = nullptr;
         this->size_ = 0;
     }
+    // Destrutor
     ~linked_list()
     {
         for (unsigned int i = 0; i < size_; i++)
@@ -51,16 +52,14 @@ public:
     bool insert_at(unsigned int index, int value)
     {
         // Verificar se o índice é válido
-        if (index > size_ || index < 0)
+        if (index > size_)
         {
             return false; // Índice inválido
         }
 
         // Criar um novo node
-        int_node *new_node = new int_node;
-        new_node->value = value;
-        new_node->next = nullptr;
-        new_node->prev = nullptr;
+        int_node *current = new int_node;
+        current->value = value;
 
         if (index == 0)
         {
@@ -68,21 +67,22 @@ public:
             if (head == nullptr)
             {
                 // Lista vazia
-                head = tail = new_node;
+                this->head = current;
+                this->tail = current;
             }
             else
             {
-                new_node->next = head;
-                head->prev = new_node;
-                head = new_node;
+                current->next = head;
+                head->prev = current;
+                head = current;
             }
         }
         else if (index == size_)
         {
             // Inserção no final
-            new_node->prev = tail;
-            tail->next = new_node;
-            tail = new_node;
+            current->prev = tail;
+            tail->next = current;
+            tail = current;
         }
         else
         {
@@ -93,10 +93,10 @@ public:
                 current = current->next;
             }
 
-            new_node->prev = current->prev;
-            new_node->next = current;
-            current->prev->next = new_node;
-            current->prev = new_node;
+            current->prev = current->prev;
+            current->next = current;
+            current->prev->next = current;
+            current->prev = current;
         }
 
         // Atualizar o tamanho
@@ -113,10 +113,8 @@ public:
         }
 
         // Criar um novo nó
-        int_node *new_node = new int_node;
-        new_node->value = value;
-        new_node->next = nullptr;
-        new_node->prev = nullptr;
+        int_node *current = new int_node;
+        current->value = value;
 
         if (index == 0)
         {
@@ -124,21 +122,22 @@ public:
             if (head == nullptr)
             {
                 // Lista vazia
-                head = tail = new_node;
+                this->head = current;
+                this->tail = current;
             }
             else
             {
-                new_node->next = head;
-                head->prev = new_node;
-                head = new_node;
+                current->next = this->head;
+                head->prev = current;
+                this->head = current;
             }
         }
         else if (index == size_)
         {
             // Inserção no final
-            new_node->prev = tail;
-            tail->next = new_node;
-            tail = new_node;
+            current->prev = tail;
+            tail->next = current;
+            tail = current;
         }
         else
         {
@@ -149,10 +148,10 @@ public:
                 current = current->next;
             }
 
-            new_node->prev = current->prev;
-            new_node->next = current;
-            current->prev->next = new_node;
-            current->prev = new_node;
+            current->prev = current->prev;
+            current->next = current;
+            current->prev->next = current;
+            current->prev = current;
         }
 
         // Atualizar o tamanho
@@ -163,17 +162,17 @@ public:
     bool remove_at(unsigned int index)
     {
         // Verificar se o índice é válido
-        if (index >= size_ || index < 0)
+        if (index >= size_)
         {
             return false; // Índice inválido
         }
 
-        int_node *to_delete = nullptr;
+        int_node *current = nullptr;
 
         if (index == 0)
         {
             // Remover do início
-            to_delete = head;
+            current = head;
             head = head->next;
             if (head != nullptr)
             {
@@ -188,7 +187,7 @@ public:
         else if (index == size_ - 1)
         {
             // Remover do final
-            to_delete = tail;
+            current = tail;
             tail = tail->prev;
             if (tail != nullptr)
             {
@@ -208,13 +207,13 @@ public:
             {
                 current = current->next;
             }
-            to_delete = current;
+            current = current;
             current->prev->next = current->next;
             current->next->prev = current->prev;
         }
 
         // Deletar o node
-        delete to_delete;
+        delete current;
 
         // Atualizar o tamanho
         size_--;
@@ -262,22 +261,22 @@ public:
     void push_back(int value)
     { // Adiciona um elemento no ``final'' do vetor
         // Criar um novo node
-        int_node *new_node = new int_node;
-        new_node->value = value;
-        new_node->next = nullptr;
-        new_node->prev = nullptr;
+        int_node *current = new int_node;
+        current->value = value;
+        current->next = nullptr;
+        current->prev = nullptr;
 
         if (head == nullptr)
         {
             // Lista vazia
-            head = tail = new_node;
+            head = tail = current;
         }
         else
         {
             // Inserir no final
-            new_node->prev = tail;
-            tail->next = new_node;
-            tail = new_node;
+            current->prev = tail;
+            tail->next = current;
+            tail = current;
         }
 
         // Atualizar o tamanho
@@ -287,22 +286,22 @@ public:
     void push_front(int value)
     { // Adiciona um elemento no ``início'' do vetor
         // Criar um novo node
-        int_node *new_node = new int_node;
-        new_node->value = value;
-        new_node->next = nullptr;
-        new_node->prev = nullptr;
+        int_node *current = new int_node;
+        current->value = value;
+        current->next = nullptr;
+        current->prev = nullptr;
 
         if (head == nullptr)
         {
             // Lista vazia
-            head = tail = new_node;
+            head = tail = current;
         }
         else
         {
             // Inserir no início
-            new_node->next = head;
-            head->prev = new_node;
-            head = new_node;
+            current->next = head;
+            head->prev = current;
+            head = current;
         }
 
         // Atualizar o tamanho
@@ -317,7 +316,7 @@ public:
             return false;
         }
 
-        int_node *to_delete = tail;
+        int_node *current = tail;
 
         if (head == tail)
         {
@@ -331,7 +330,7 @@ public:
             tail->next = nullptr;
         }
 
-        delete to_delete;
+        delete current;
         size_--;
 
         return true;
@@ -345,7 +344,7 @@ public:
             return false;
         }
 
-        int_node *to_delete = head;
+        int_node *current = head;
 
         if (head == tail)
         {
@@ -359,7 +358,7 @@ public:
             head->prev = nullptr;
         }
 
-        delete to_delete;
+        delete current;
         size_--;
 
         return true;
@@ -369,16 +368,15 @@ public:
     { // Retorna o elemento do "final" do vetor
         if (tail == nullptr)
         {
-            // Lista vazia
-            throw std::out_of_range("Lista vazia. Não foi possível retornar o elemento final.");
+            return -1;
         }
         return tail->value;
     }
-    int linked_list::front()
+    int front()
     { // Retorna o elemento do "final" do vetor
         if (head == nullptr)
         {
-            throw std::out_of_range("Lista vazia. Não foi possíível retornar o elemento inicial.");
+            return -1;
         }
 
         return head->value;
